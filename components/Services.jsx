@@ -4,7 +4,7 @@ import { services } from "@/app/data";
 
 export default function Services() {
   return (
-    <section className="section">
+    <section className="section services">
       <div className="container">
         <h2 className="section-title">서비스 안내</h2>
 

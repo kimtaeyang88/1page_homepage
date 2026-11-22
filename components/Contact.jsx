@@ -1,13 +1,10 @@
 // 맨 아래 문의 영역: 전화번호·이메일·블로그
 // 휴대폰에서 전화번호를 누르면 바로 전화가 걸려요 (tel: 링크)
 import { company } from "@/app/data";
-import Wave from "./Wave";
 
 export default function Contact() {
   return (
     <section className="contact">
-      <Wave />
-
       <div className="container">
         <h2 className="contact-title">
           <span>무료 진단 상담을 받아 보세요</span>

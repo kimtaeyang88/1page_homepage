@@ -12,9 +12,14 @@ export default function Hero() {
         {/* 로고 */}
         <div className="logo">
           <Logo />
-          <div>
+          <div className="logo-text">
             <p className="logo-name">{company.name}</p>
-            <p className="logo-tagline">{company.tagline}</p>
+            {/* 글자를 한 자씩 나눠서 '일페이지' 너비에 고르게 펼침 */}
+            <p className="logo-tagline" aria-label={company.tagline}>
+              {Array.from(company.tagline).map((char, i) => (
+                <span key={i} aria-hidden="true">{char}</span>
+              ))}
+            </p>
           </div>
         </div>
 

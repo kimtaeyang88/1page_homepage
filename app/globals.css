@@ -27,6 +27,7 @@ body {
   color: var(--white);
   line-height: 1.6;
   word-break: keep-all; /* 한글 단어가 중간에 끊기지 않게 */
+  white-space: pre-line; /* data.js 글에 \n 을 넣으면 그 자리에서 줄바꿈 */
   padding-bottom: 72px; /* 아래 상담 버튼에 내용이 가리지 않게 */
 }
 
@@ -76,14 +77,30 @@ img {
   gap: 48px;
 }
 
-/* ---------- 3. 물결 그래픽 ---------- */
+/* ---------- 3. 물결 동영상 ---------- */
 .wave {
   position: absolute;
   top: 0;
   right: 0;
-  width: 75%;
-  height: 100%;
-  opacity: 0.55; /* 휴대폰에서는 글자가 잘 보이게 연하게 */
+  height: 80%; /* 휴대폰: 영상 높이 = 섹션 높이의 80% (위쪽 오른편에만) */
+  width: auto;
+  aspect-ratio: 16 / 9; /* 영상 원래 비율 그대로 (찌그러지지 않게) */
+  max-width: none;
+  /* 물결이 영상 한가운데에 있어서, 영상을 오른쪽으로 밀어
+     물결 중심이 화면 가로 85% 지점에 오게 함 (숫자를 줄이면 왼쪽으로) */
+  transform: translateX(calc(50% - 12vw));
+  mix-blend-mode: lighten; /* 영상 배경과 보라색 배경 중 밝은 쪽만 → 사각형 경계가 안 보이게 */
+  /* 영상 왼쪽·오른쪽·아래쪽 끝을 서서히 투명하게 */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 20%, #000 40%, #000 60%, transparent 80%),
+    linear-gradient(to bottom, #000 65%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 20%, #000 40%, #000 60%, transparent 80%),
+    linear-gradient(to bottom, #000 65%, transparent);
+  mask-composite: intersect;
+  opacity: 0.5; /* 휴대폰에서는 글자가 잘 보이게 연하게 */
+  pointer-events: none;
 }
 
 /* ---------- 4. 맨 위 첫 화면 (Hero) ---------- */
@@ -113,14 +130,23 @@ img {
   line-height: 1.1;
 }
 
+/* 로고 글자 묶음: 너비 = '일페이지' 글자 너비 */
+.logo-text {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+/* '온라인 광고대행사'를 위 '일페이지' 너비에 맞춰 글자 간격을 고르게 */
 .logo-tagline {
-  font-size: 11px;
-  letter-spacing: 0.4em;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  white-space: pre; /* 띄어쓰기도 한 칸으로 유지 */
 }
 
 .hero-title {
   color: var(--yellow);
-  font-size: 44px;
+  font-size: 52px;
   font-weight: 900;
   line-height: 1.25;
   margin-bottom: 20px;
@@ -133,8 +159,31 @@ img {
   display: block;
 }
 
+/* 첫 화면: 로고는 화면 위쪽에, 큰 제목은 남은 공간의 가운데에 */
+.hero > .container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 세로 배치: [위 빈 공간 2] 로고 [고정 간격] 제목·설명 [아래 빈 공간 3]
+   → 아래 숫자(3)를 키우면 전체가 더 위로 올라가요 */
+.hero > .container::before {
+  content: "";
+  flex: 2;
+}
+
+.hero > .container::after {
+  content: "";
+  flex: 3;
+}
+
+.hero .logo {
+  margin-bottom: max(40px, 8vh); /* 로고와 큰 제목 사이 간격 */
+}
+
 .hero-subtitle {
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 0.15em;
 }
 
@@ -145,7 +194,9 @@ img {
 }
 
 .intro-photo {
-  width: 100%;
+  display: block;
+  width: 50%; /* 사진 크기 (칸 너비 대비) */
+  margin: 0 auto; /* 가운데 */
 }
 
 .intro-text {
@@ -179,6 +230,11 @@ img {
   border-radius: 50%; /* 동그랗게 */
 }
 
+/* 이 섹션은 전부 가운데 정렬 */
+.services {
+  text-align: center;
+}
+
 /* 제목 위의 짧은 흰색 선 */
 .service-title::before {
   content: "";
@@ -186,7 +242,7 @@ img {
   width: 32px;
   height: 3px;
   background: var(--white);
-  margin-bottom: 12px;
+  margin: 0 auto 12px; /* 가운데 */
 }
 
 .service-title {
@@ -461,7 +517,8 @@ img {
   }
 
   .wave {
-    width: 55%;
+    height: 100%; /* PC: 섹션 높이 전체 */
+    transform: translateX(calc(50% - 22vw)); /* PC: 물결 중심을 화면 가로 78% 지점에 */
     opacity: 1;
   }
 
@@ -470,7 +527,7 @@ img {
   }
 
   .hero-title {
-    font-size: 72px;
+    font-size: 88px;
   }
 
   /* 사진 왼쪽, 글 오른쪽 */
