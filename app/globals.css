@@ -164,6 +164,7 @@ img {
   flex: 1;
   display: flex;
   flex-direction: column;
+  padding-left: 36px; /* 왼쪽 여백 (휴대폰) — 다른 섹션보다 넉넉하게 */
 }
 
 /* 세로 배치: [위 빈 공간 2] 로고 [고정 간격] 제목·설명 [아래 빈 공간 3]
@@ -435,29 +436,97 @@ img {
   justify-content: center; /* 내용을 화면 세로 가운데로 */
   background: var(--black); /* 뒤 섹션이 비쳐 보이지 않게 */
   box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.55);
-
-  /* 다음 섹션에 덮일수록 살짝 작아짐 (0.06 = 최대 6% 축소) */
-  transform: scale(calc(1 - var(--cover, 0) * 0.06));
   transform-origin: 50% 0%;
-  will-change: transform;
 }
 
-/* 덮일수록 어두워지는 검은 막 (0.55 = 최대 어둡기) */
+.stack > section > .container {
+  width: 100%;
+}
+
+/* 덮일수록 어두워지는 검은 막 (처음엔 투명) */
 .stack > section::after {
   content: "";
   position: absolute;
   inset: 0;
   background: #000;
-  opacity: calc(var(--cover, 0) * 0.55);
+  opacity: 0;
   pointer-events: none;
   border-radius: inherit;
 }
 
-/* 올라오는 섹션의 내용이 아래에서 부드럽게 떠오름 */
-.stack > section > .container {
-  width: 100%;
-  opacity: calc(0.2 + var(--enter, 1) * 0.8);
-  transform: translateY(calc((1 - var(--enter, 1)) * 60px));
+/* ----- 스크롤에 맞춰 움직이는 애니메이션 -----
+   브라우저가 스크롤과 직접 연결해서 처리 → 스크롤과 정확히 맞물려 부드러움.
+   지원하지 않는 브라우저(일부 Firefox 등)에서는 효과 없이 겹치기만 해요.
+
+   원리: 각 섹션에 이름(--s1 ~ --s6)을 붙여 "화면에 들어오는 진행도"를 만들고,
+   - 앞 섹션은 '다음 섹션'의 진행도에 맞춰 작아지고 어두워짐
+   - 들어오는 섹션의 내용은 '자기' 진행도에 맞춰 떠오름 */
+@supports (animation-timeline: view()) {
+  .stack {
+    timeline-scope: --s1, --s2, --s3, --s4, --s5, --s6;
+  }
+
+  .stack > :nth-child(1) { view-timeline-name: --s1; }
+  .stack > :nth-child(2) { view-timeline-name: --s2; }
+  .stack > :nth-child(3) { view-timeline-name: --s3; }
+  .stack > :nth-child(4) { view-timeline-name: --s4; }
+  .stack > :nth-child(5) { view-timeline-name: --s5; }
+  .stack > :nth-child(6) { view-timeline-name: --s6; }
+
+  /* 앞 섹션: 다음 섹션이 올라오는 동안 작아지기 + 어두워지기 */
+  .stack > section:not(:last-child),
+  .stack > section:not(:last-child)::after {
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-range: entry 0% entry 100%; /* 다음 섹션이 화면 아래에 닿을 때 ~ 다 덮을 때 */
+  }
+
+  .stack > section:not(:last-child) {
+    animation-name: stack-shrink;
+    will-change: transform;
+  }
+
+  .stack > section:not(:last-child)::after {
+    animation-name: stack-dim;
+  }
+
+  .stack > :nth-child(1),
+  .stack > :nth-child(1)::after { animation-timeline: --s2; }
+  .stack > :nth-child(2),
+  .stack > :nth-child(2)::after { animation-timeline: --s3; }
+  .stack > :nth-child(3),
+  .stack > :nth-child(3)::after { animation-timeline: --s4; }
+  .stack > :nth-child(4),
+  .stack > :nth-child(4)::after { animation-timeline: --s5; }
+  .stack > :nth-child(5),
+  .stack > :nth-child(5)::after { animation-timeline: --s6; }
+
+  /* 들어오는 섹션의 내용: 아래에서 떠오르며 선명해짐 */
+  .stack > section + section > .container {
+    animation: stack-rise linear both;
+    animation-range: entry 0% entry 100%;
+  }
+
+  .stack > :nth-child(2) > .container { animation-timeline: --s2; }
+  .stack > :nth-child(3) > .container { animation-timeline: --s3; }
+  .stack > :nth-child(4) > .container { animation-timeline: --s4; }
+  .stack > :nth-child(5) > .container { animation-timeline: --s5; }
+  .stack > :nth-child(6) > .container { animation-timeline: --s6; }
+}
+
+/* 작아지는 정도 (0.94 = 6% 축소) */
+@keyframes stack-shrink {
+  to { transform: scale(0.94); }
+}
+
+/* 어두워지는 정도 (0.55 = 최대 어둡기) */
+@keyframes stack-dim {
+  to { opacity: 0.55; }
+}
+
+/* 떠오르는 거리 (60px) */
+@keyframes stack-rise {
+  from { opacity: 0.2; transform: translateY(60px); }
 }
 
 /* 두 번째 섹션부터 윗모서리를 둥글게 + 살짝 다른 배경색으로 겹침이 보이게 */
@@ -480,8 +549,7 @@ img {
   .stack > section,
   .stack > section > .container {
     position: relative;
-    transform: none;
-    opacity: 1;
+    animation: none !important;
   }
 
   .stack > section::after {
@@ -528,6 +596,10 @@ img {
 
   .hero-title {
     font-size: 88px;
+  }
+
+  .hero > .container {
+    padding-left: 64px; /* 왼쪽 여백 (PC) */
   }
 
   /* 사진 왼쪽, 글 오른쪽 */
