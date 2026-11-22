@@ -18,6 +18,13 @@ export default function Contact() {
             <a href={`tel:${company.phone}`}>{company.phone}</a>
           </dd>
 
+          <dt>카카오톡</dt>
+          <dd>
+            <a href={company.kakao} target="_blank" rel="noreferrer">
+              카카오톡으로 문의하기 →
+            </a>
+          </dd>
+
           <dt>이메일</dt>
           <dd>
             <a href={`mailto:${company.email}`}>{company.email}</a>

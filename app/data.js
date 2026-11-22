@@ -10,6 +10,8 @@ export const company = {
   phone: "010-2780-1232",
   email: "1page_ad@naver.com",
   blog: "https://blog.naver.com/1page_ad",
+  // 카카오톡 (휴대폰에서 누르면 카카오톡이 열려요)
+  kakao: "https://qr.kakao.com/talk/jaGm2iHA9RncV3R44dcL0dEBfaE-",
 };
 
 // 맨 위 첫 화면
@@ -23,7 +25,7 @@ export const intro = {
   question: ["광고비는 계속 나가는데", "손님이 늘지 않아 고민이신가요?"],
   keywords: ["플레이스", "블로그", "리뷰"],
   description:
-    "일페이지는 매장 상태를 꼼꼼히 진단하고 \n지금 우리 가게에 꼭 필요한 광고만 제안합니다 \n손님이 검색했을 때 가장 먼저 만나는 첫 페이지를 함께 만들어 갑니다",
+    "일페이지는 매장 상태를 꼼꼼히 진단하고 \n지금 우리 가게에 꼭 필요한 광고만 제안합니다 \n손님이 검색했을 때 가장 먼저 만나는 \n첫 페이지를 함께 만들어 갑니다",
 };
 
 // 서비스 안내 (사진은 public/images 폴더에 있어요)
@@ -50,17 +52,17 @@ export const benefits = [
   {
     icon: "cloud",
     label: "매장 맞춤 전략",
-    text: "진단 결과를 바탕으로 우리 가게에 맞는 방법만 제안합니다",
+    text: "진단 결과를 바탕으로 \n우리 매장에 맞는 방법만 제안합니다",
   },
   {
     icon: "eye",
     label: "투명한 성과 보고",
-    text: "어떤 작업을 했고 결과가 어땠는지 정기 보고서로 공유합니다",
+    text: "어떤 작업을 했고 결과가 어땠는지 \n정기 보고서로 공유합니다",
   },
   {
     icon: "puzzle",
     label: "전담 담당자 배정",
-    text: "한 명의 담당자가 처음부터 끝까지 책임지고 소통합니다",
+    text: "한 명의 담당자가 \n처음부터 끝까지 책임지고 소통합니다",
   },
 ];
 
