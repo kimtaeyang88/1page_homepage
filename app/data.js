@@ -10,8 +10,9 @@ export const company = {
   phone: "010-2780-1232",
   email: "1page_ad@naver.com",
   blog: "https://blog.naver.com/1page_ad",
-  // 카카오톡 (휴대폰에서 누르면 카카오톡이 열려요)
-  kakao: "https://qr.kakao.com/talk/jaGm2iHA9RncV3R44dcL0dEBfaE-",
+  // 카카오톡 채널 1:1 채팅 (누르면 채널 채팅창이 바로 열려요)
+  // 채널 소개 화면으로 보내고 싶으면 끝의 /chat 을 지우세요
+  kakao: "https://pf.kakao.com/_ZFxfvX/chat",
 };
 
 // 맨 위 첫 화면
