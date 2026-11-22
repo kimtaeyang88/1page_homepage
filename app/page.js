@@ -7,16 +7,20 @@ import Benefits from "@/components/Benefits";
 import Faq from "@/components/Faq";
 import Contact from "@/components/Contact";
 import CallBar from "@/components/CallBar";
+import StackScroll from "@/components/StackScroll";
 
 export default function Home() {
   return (
     <main>
-      <Hero />
-      <Intro />
-      <Services />
-      <Benefits />
-      <Faq />
-      <Contact />
+      {/* 화면 한 장씩 겹쳐 올라오는 효과 */}
+      <StackScroll>
+        <Hero />
+        <Intro />
+        <Services />
+        <Benefits />
+        <Faq />
+        <Contact />
+      </StackScroll>
       <CallBar />
     </main>
   );

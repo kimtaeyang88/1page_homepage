@@ -174,7 +174,7 @@ img {
 /* ---------- 6. 서비스 안내 ---------- */
 .service-photo {
   display: block;
-  width: 72%;
+  width: 36%; /* 칸 너비 대비 사진 크기 */
   margin: 0 auto 28px;
   border-radius: 50%; /* 동그랗게 */
 }
@@ -197,6 +197,19 @@ img {
 }
 
 /* ---------- 7. 일페이지와 함께하면 ---------- */
+/* 이 섹션은 전부 가운데 정렬 */
+.benefits {
+  text-align: center;
+}
+
+/* 노란 상자와 그 위 줄무늬: 칸 너비의 절반 크기, 가운데 */
+.benefit .stripes,
+.benefit-box {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .benefit-box {
   display: flex;
   align-items: center;
@@ -207,8 +220,8 @@ img {
 }
 
 .icon {
-  width: 72px;
-  height: 72px;
+  width: 44px;
+  height: 44px;
   fill: none;
   stroke: var(--mint);
   stroke-width: 3.5;
@@ -353,6 +366,71 @@ img {
 .callbar-mail {
   border: 2px solid var(--mint);
   color: var(--mint);
+}
+
+/* ---------- 11. 한 장씩 겹쳐 올라오는 스크롤 효과 ---------- */
+.stack > section {
+  position: sticky; /* 화면에 붙어 있다가 다음 섹션에 덮임 (top 값은 StackScroll.jsx가 계산) */
+  top: 0;
+  min-height: 100vh; /* 섹션 하나 = 화면 하나 */
+  min-height: 100svh; /* 휴대폰 주소창 높이 변화 대응 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 내용을 화면 세로 가운데로 */
+  background: var(--black); /* 뒤 섹션이 비쳐 보이지 않게 */
+  box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.55);
+
+  /* 다음 섹션에 덮일수록 살짝 작아짐 (0.06 = 최대 6% 축소) */
+  transform: scale(calc(1 - var(--cover, 0) * 0.06));
+  transform-origin: 50% 0%;
+  will-change: transform;
+}
+
+/* 덮일수록 어두워지는 검은 막 (0.55 = 최대 어둡기) */
+.stack > section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: calc(var(--cover, 0) * 0.55);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* 올라오는 섹션의 내용이 아래에서 부드럽게 떠오름 */
+.stack > section > .container {
+  width: 100%;
+  opacity: calc(0.2 + var(--enter, 1) * 0.8);
+  transform: translateY(calc((1 - var(--enter, 1)) * 60px));
+}
+
+/* 두 번째 섹션부터 윗모서리를 둥글게 + 살짝 다른 배경색으로 겹침이 보이게 */
+.stack > section + section {
+  border-radius: 28px 28px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stack > .section:nth-child(odd) {
+  background: #0d0a17;
+}
+
+.stack > .hero,
+.stack > .contact {
+  background: linear-gradient(135deg, var(--purple), #2a1446);
+}
+
+/* 움직임 줄이기 설정을 켠 사람에게는 평범한 스크롤로 */
+@media (prefers-reduced-motion: reduce) {
+  .stack > section,
+  .stack > section > .container {
+    position: relative;
+    transform: none;
+    opacity: 1;
+  }
+
+  .stack > section::after {
+    display: none;
+  }
 }
 
 /* ============================================================

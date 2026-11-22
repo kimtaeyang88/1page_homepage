@@ -10,8 +10,8 @@ export default function Intro() {
           className="intro-photo"
           src="/images/team.png"
           alt="일페이지 팀이 회의하는 모습"
-          width={560}
-          height={530}
+          width={300}
+          height={300}
         />
 
         <div className="intro-text">

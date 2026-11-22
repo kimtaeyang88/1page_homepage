@@ -4,7 +4,7 @@ import { BenefitIcon, Stripes } from "./Icons";
 
 export default function Benefits() {
   return (
-    <section className="section">
+    <section className="section benefits">
       <div className="container">
         <h2 className="section-title">{company.name}와 함께하면</h2>
 
